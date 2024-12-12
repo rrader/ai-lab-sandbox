@@ -78,7 +78,6 @@ window.addEventListener('load', () => {
     const hsv_picker = document.querySelector("#hsv-color")
 
     canvas_img.onmousemove = function (event) {
-        console.log(this);
         const x = event.offsetX;
         const y = event.offsetY;
 
