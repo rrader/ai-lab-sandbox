@@ -54,8 +54,9 @@ defaultTask = "findTheStar";
 const codeEditor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
     lineNumbers: true,
     mode: 'python',
-    theme: 'default'
+    theme: 'default',
 });
+codeEditor.setSize("100%", 450);
 
 window.addEventListener('load', () => {
 
