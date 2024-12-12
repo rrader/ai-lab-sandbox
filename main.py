@@ -23,6 +23,12 @@ def output(img):
     js.setCanvasSrc(f"data:image/jpg;base64,{data_url}")
 
 
+def debug(img):
+    _, buffer = cv2.imencode(".jpg", img)
+    data_url = bytes_to_data_url(buffer)
+    js.setCanvasDebugSrc(f"data:image/jpg;base64,{data_url}")
+
+
 def _print(*args):
     js.addToOutput(" ".join(str(i) for i in args) + "\n")
 
@@ -39,6 +45,7 @@ def click_corner(event):
             "cv2": cv2,
             "img": rgb_img,
             "output": output,
+            "debug": debug,
             "print": _print
         })
     except Exception as e:

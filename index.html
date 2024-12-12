@@ -19,10 +19,10 @@
 
   <style>
     #code-editor {
-      height: 300px;
+      height: 400px;
     }
 
-    #output {
+    #output, #debug {
       /* height: 300px; */
       background-color: #f8f9fa;
       display: flex;
@@ -51,8 +51,23 @@
 </head>
 
 <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">OpenCV Sandbox</a>
+
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Tasks
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" href="#" onclick="askOpenTask('findTheStar')">Find the star</a></li>
+          <li><a class="dropdown-item" href="#" onclick="askOpenTask('fishCount')">Fish count</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
   <div class="container mt-4">
-    <h1 class="text-center">OpenCV Sandbox</h1>
     <div class="row mt-4">
       <div class="col-md-6">
         <h5>Code Editor</h5>
@@ -69,6 +84,16 @@
 
         <h5>Upload File</h5>
         <input type="file" id="image-file" class="form-control">
+
+        <div class="card mt-1">
+          <div class="card-body">
+            <h5 class="card-title">Color picker</h5>
+            <p class="card-text">(opencv colors, in range 0-255)</p>
+            <p class="card-text">RGB: <span id="rgb-color"></span></p>
+            <p class="card-text">HSV: <span id="hsv-color"></span></p>
+          </div>
+        </div>
+
       </div>
       <div class="col-md-3">
         <h5>Output</h5>
@@ -78,6 +103,10 @@
         <button id="run-btn" class="btn btn-primary mt-4" type="submit" py-click="click_corner" align="center">
           Run
         </button>
+
+        <div class="mt-1">
+          <canvas id="debug" height="100" style="align-items: center;"></canvas>
+        </div>
       </div>
     </div>
     <div class="row mt-4">
@@ -88,6 +117,7 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.7/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.7/mode/python/python.min.js"></script>
 
