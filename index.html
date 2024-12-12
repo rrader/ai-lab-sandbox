@@ -56,30 +56,11 @@
     <div class="row mt-4">
       <div class="col-md-6">
         <h5>Code Editor</h5>
-        <textarea id="code-editor">
-# Let's find the star!
+        <button id="reset-btn" class="btn btn-primary mt-4" onclick="resetCode()">
+          Reset to default
+        </button>
+        <textarea id="code-editor"></textarea>
 
-canny = cv2.Canny(img, 50, 50)
-canny = cv2.dilate(canny, (5, 5))
-
-contours, _ = cv2.findContours(
-    canny, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
-)
-
-c = None
-
-for i, c1 in enumerate(contours):
-    peri = cv2.arcLength(c1, True)
-    approx = cv2.approxPolyDP(c1, 0.017 * peri, True)
-
-    print(len(approx))
-    if len(approx) == 10:
-        c = approx
-
-    img = cv2.drawContours(img, approx, -1, (0, 0, 255), 10)
-
-img = cv2.drawContours(img, [c], -1, (0, 255, 0), 3)
-output(img)</textarea>
       </div>
       <div class="col-md-3">
         <h5>Input</h5>
