@@ -43,6 +43,7 @@ window.addEventListener('load', () => {
         localStorage.setItem("codeEditor", codeEditor.getValue());
     });
 
+    const defaultCode = tasks[defaultTask].code;
     codeEditor.setValue(localStorage.getItem("codeEditor") || defaultCode);
 
     // Canvas
