@@ -5,6 +5,8 @@ import json
 import js
 import numpy as np
 import traceback
+from js import XMLHttpRequest
+from io import BytesIO
 
 
 def readb64(encoded_data):
@@ -20,13 +22,13 @@ def bytes_to_data_url(img_bytes):
 def output(img):
     _, buffer = cv2.imencode(".jpg", img)
     data_url = bytes_to_data_url(buffer)
-    js.setCanvasSrc(f"data:image/jpg;base64,{data_url}")
+    js.set_canvas_image("output", f"data:image/jpg;base64,{data_url}", "output")
 
 
 def debug(img):
     _, buffer = cv2.imencode(".jpg", img)
     data_url = bytes_to_data_url(buffer)
-    js.setCanvasDebugSrc(f"data:image/jpg;base64,{data_url}")
+    js.set_canvas_image("debug", f"data:image/jpg;base64,{data_url}", "debug")
 
 
 def _print(*args):
@@ -34,8 +36,15 @@ def _print(*args):
 
 
 def click_corner(event):
-    img = js.getCanvasSrc()
+    img = js.getCanvasSrc("input")
+    img1 = js.getCanvasSrc("input1")
+    img2 = js.getCanvasSrc("input2")
+    img3 = js.getCanvasSrc("input3")
+
     rgb_img = readb64(img[len('data:image/jpg;base64,'):])
+    rgb_img1 = readb64(img1[len('data:image/jpg;base64,'):])
+    rgb_img2 = readb64(img2[len('data:image/jpg;base64,'):])
+    rgb_img3 = readb64(img3[len('data:image/jpg;base64,'):])
 
     code = js.getUserCode()
     js.clearOutput()
@@ -44,9 +53,12 @@ def click_corner(event):
         exec(code, {
             "cv2": cv2,
             "img": rgb_img,
+            "img1": rgb_img1,
+            "img2": rgb_img2,
+            "img3": rgb_img3,
             "output": output,
             "debug": debug,
-            "print": _print
+            "print": _print,
         })
     except Exception as e:
         tb = traceback.format_exc()
