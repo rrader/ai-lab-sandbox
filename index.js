@@ -79,6 +79,11 @@ codeEditor.setSize("100%", 450);
 
 window.addEventListener('load', () => {
 
+    let lang = localStorage.getItem("lang");
+    if (lang !== null) {
+        changeLang(lang);
+    }
+
     // Initialize CodeMirror for the code editor
     codeEditor.on('change', () => {
         codeEditor.save();
@@ -238,4 +243,9 @@ function startCamera() {
             localStorage.setItem("input", getCanvasSrc("input"));
         }, 1000 / 30);
     });
+}
+
+function changeLang(lang) {
+    window.i18n.changeLanguage(lang);
+    localStorage.setItem("lang", lang);
 }
