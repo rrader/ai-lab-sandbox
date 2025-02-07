@@ -281,7 +281,13 @@
       <!-- Editor Column -->
       <div class="col-lg-6">
         <section aria-labelledby="editor-title">
-          <h5 id="editor-title" data-translatable>Code Editor // Редактор коду</h5>
+          <h5 id="editor-title" class="d-flex justify-content-between align-items-center">
+            <span data-translatable>Code Editor // Редактор коду</span>
+            <button id="save-btn" class="btn btn-secondary btn-sm" type="button" onclick="saveCode()">
+              <i class="bi bi-download me-1"></i>
+              <span data-translatable>Download Python file // Завантажити програму</span>
+            </button>
+          </h5>
           <textarea id="code-editor" aria-label="Python code editor"></textarea>
           
           <div id="output-log" class="log" role="log" aria-live="polite"></div>

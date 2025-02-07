@@ -249,3 +249,15 @@ function changeLang(lang) {
     window.i18n.changeLanguage(lang);
     localStorage.setItem("lang", lang);
 }
+
+function saveCode() {
+    const code = codeEditor.getValue();
+    // Create a downloadable file (blob) and trigger download
+    const blob = new Blob([code], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.download = "opencv_sandbox_code.py";
+    link.href = url;
+    link.click();
+    URL.revokeObjectURL(url);
+}

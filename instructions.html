@@ -37,80 +37,154 @@
 <body>
   <!-- Add navigation bar matching index.html -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light" aria-label="Main navigation">
-    <a class="navbar-brand" href="index.html" data-translatable>OpenCV Sandbox // OpenCV Пісочниця</a>
+    <div class="container">
+      <a class="navbar-brand" href="index.html" data-translatable>OpenCV Sandbox // OpenCV Пісочниця</a>
 
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-translatable>
-          <i class="bi bi-translate"></i>
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="langDropdown">
-          <li><a class="dropdown-item" href="#" onclick="changeLang('uk')">Українська</a></li>
-          <li><a class="dropdown-item" href="#" onclick="changeLang('en')">English</a></li>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-translatable>
+              <i class="bi bi-translate"></i>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="langDropdown">
+              <li><a class="dropdown-item" href="#" onclick="changeLang('uk')">Українська</a></li>
+              <li><a class="dropdown-item" href="#" onclick="changeLang('en')">English</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="instructions.html" data-translatable>Instructions // Інструкції</a>
+          </li>
         </ul>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="instructions.html" data-translatable>Instructions // Інструкції</a>
-      </li>
-    </ul>
+      </div>
+    </div>
   </nav>
 
-  <div class="container">
-    <h1 data-translatable>What is Computer Vision? // Що таке комп'ютерний зір?</h1>
-    <p data-translatable>
-      Computer Vision is a field within Artificial Intelligence that enables machines to understand and interpret the visual world. 
-      // Комп'ютерний зір — це напрямок штучного інтелекту, що дозволяє машинам розуміти та інтерпретувати навколишній світ засобами візуальної інформації.
-    </p>
+  <main>
+    <div class="container-md">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <h1 data-translatable>What is Computer Vision? // Що таке комп'ютерний зір?</h1>
+          <p data-translatable>
+            Computer Vision is a fascinating field within Artificial Intelligence that enables machines to understand and interpret the visual world, just like human eyes and brain do. From detecting objects and faces to reading text and understanding emotions, computer vision systems process millions of pixels to make sense of what they "see". This technology is everywhere - in your smartphone's camera that recognizes faces, in self-driving cars that detect road signs, and even in factories where robots inspect products for quality control.
+            // Комп'ютерний зір — це захоплюючий напрямок штучного інтелекту, що дозволяє машинам розуміти та інтерпретувати навколишній світ засобами візуальної інформації, подібно до людських очей та мозку. Від виявлення об'єктів і облич до читання тексту та розуміння емоцій, системи комп'ютерного зору обробляють мільйони пікселів, щоб зрозуміти те, що вони "бачать". Ця технологія всюди - у камері вашого смартфона, яка розпізнає обличчя, в безпілотних автомобілях, які виявляють дорожні знаки, і навіть на заводах, де роботи перевіряють якість продукції.
+          </p>
 
-    <h2 data-translatable>Why Learn Computer Vision? // Чому варто вивчати комп'ютерний зір?</h2>
-    <p data-translatable>
-      It powers technologies like face recognition, self-driving cars, and advanced image editing. 
-      // Він лежить в основі таких технологій, як розпізнавання облич, автопілот у авто та просунуті методи редагування зображень.
-    </p>
+          <h2 data-translatable>Why Learn Computer Vision? // Чому варто вивчати комп'ютерний зір?</h2>
+          <p data-translatable>
+            It powers technologies like face recognition, self-driving cars, and advanced image editing. Learning computer vision opens up exciting career opportunities in robotics, augmented reality, medical imaging, and autonomous systems. With computer vision skills, you can build applications that help doctors diagnose diseases, create immersive AR experiences, develop smart security systems, or work on cutting-edge research in AI and robotics. The field is rapidly growing with new applications emerging constantly.
+            // Він лежить в основі таких технологій, як розпізнавання облич, автопілот у авто та просунуті методи редагування зображень. Вивчення комп'ютерного зору відкриває захоплюючі кар'єрні можливості в робототехніці, доповненій реальності, медичній візуалізації та автономних системах. Маючи навички комп'ютерного зору, ви зможете створювати програми, які допомагають лікарям діагностувати захворювання, створювати ефекти доповненої реальності, розробляти розумні системи безпеки або працювати над передовими дослідженнями в галузі штучного інтелекту та робототехніки. Ця галузь стрімко розвивається, і постійно з'являються нові застосування.
+          </p>
 
-    <h3 data-translatable>What is the Sandbox? // Що таке "Пісочниця"?</h3>
-    <p data-translatable>
-      This sandbox is an interactive environment for experimenting with Python code and OpenCV right in your browser. You can upload images or use your camera, then process them with OpenCV. 
-      // "Пісочниця" — це інтерактивне середовище для експериментів із Python і OpenCV безпосередньо у вашому браузері. Ви можете завантажити зображення або скористатися камерою і потім обробити їх за допомогою OpenCV.
-    </p>
+          <h3 data-translatable>What is the OpenCV Sandbox? // Що таке "OpenCV Пісочниця"?</h3>
+          <p data-translatable>
+            This sandbox is an interactive environment for experimenting with Python code and OpenCV right in your browser. You can upload images or use your camera, then process them with OpenCV. 
+            // "Пісочниця" — це інтерактивне середовище для експериментів із Python і OpenCV безпосередньо у вашому браузері. Ви можете завантажити зображення або скористатися камерою і потім обробити їх за допомогою OpenCV.
+          </p>
 
-    <h4 data-translatable>Key Features // Основні можливості</h4>
-    <ul>
-      <li data-translatable>Live code editor for Python // Редактор коду Python у реальному часі</li>
-      <li data-translatable>Ability to upload images or capture from your webcam // Можливість завантажувати зображення або знімати з вебкамери</li>
-      <li data-translatable>Multiple output canvases for intermediate debugging // Декілька полів для виведення проміжних результатів</li>
-      <li data-translatable>Instant feedback on your code // Миттєвий зворотній зв'язок на введений код</li>
-    </ul>
+          <h4 data-translatable>Key Features // Основні можливості</h4>
+          <ul>
+            <li data-translatable>Live code editor for Python // Редактор коду Python у реальному часі</li>
+            <li data-translatable>Ability to upload images or capture from your webcam // Можливість завантажувати зображення або знімати з вебкамери</li>
+            <li data-translatable>Multiple output canvases for intermediate debugging // Декілька полів для виведення проміжних результатів</li>
+            <li data-translatable>Instant feedback on your code // Миттєвий зворотній зв'язок на введений код</li>
+          </ul>
 
-    <h4 data-translatable>Basic Steps // Основні дії</h4>
-    <ol>
-      <li data-translatable>Write or paste your Python OpenCV code in the editor // Напишіть або вставте свій Python-код з OpenCV у редакторі</li>
-      <li data-translatable>Upload or capture an image (optional) // Завантажте або сфотографуйте зображення (за потреби)</li>
-      <li data-translatable>Click "Run" // Натисніть «Run»</li>
-      <li data-translatable>Check the output or debug canvases // Перевірте результати або проміжні зображення</li>
-    </ol>
-    
-    <h2 data-translatable>OpenCV Basics // Основи OpenCV</h2>
-    <p data-translatable>
-      OpenCV (Open Source Computer Vision Library) is a library of programming functions mainly aimed at real-time computer vision. Some common tasks include:
-      // OpenCV — це бібліотека програмних функцій, здебільшого орієнтована на обробку зображень у реальному часі. Поширені задачі:
-    </p>
-    <ul>
-      <li data-translatable>Reading and writing images // Читання та запис зображень</li>
-      <li data-translatable>Applying filters and transformations // Застосування фільтрів та перетворень</li>
-      <li data-translatable>Detecting edges and shapes // Виявлення контурів та фігур</li>
-      <li data-translatable>Face and object recognition // Розпізнавання облич та об'єктів</li>
-    </ul>
-    
-    <h2 data-translatable>Next Steps // Подальші кроки</h2>
-    <p data-translatable>
-      In future pages, we'll dive deeper into image processing tasks, color manipulations, shape detection, and more advanced topics like deep learning. 
-      // У наступних сторінках ми детальніше розглянемо задачі обробки зображень, роботу з кольорами, виявлення фігур і складніші теми, як-от глибинне навчання.
-    </p>
-    <p data-translatable>
-      Remember to experiment, break things, and have fun! // Пам'ятайте: експериментуйте, припускайтеся помилок і отримуйте задоволення від навчання!
-    </p>
-  </div>
+          <h4 data-translatable>Basic Steps // Основні дії</h4>
+          <ol>
+            <li data-translatable>Write or paste your Python OpenCV code in the editor // Напишіть або вставте свій Python-код з OpenCV у редакторі</li>
+            <li data-translatable>Upload or capture an image (optional) // Завантажте або сфотографуйте зображення (за потреби)</li>
+            <li data-translatable>Click "Run" // Натисніть «Run»</li>
+            <li data-translatable>Check the output or debug canvases // Перевірте результати або проміжні зображення</li>
+          </ol>
+          
+          <h2 data-translatable>OpenCV Basics // Основи OpenCV</h2>
+          <p data-translatable>
+            OpenCV (Open Source Computer Vision Library) is a library of programming functions mainly aimed at real-time computer vision. Here's how to get started:
+            // OpenCV — це бібліотека програмних функцій, здебільшого орієнтована на обробку зображень у реальному часі. Ось як почати роботу:
+          </p>
+
+          <h4 data-translatable>1. Importing OpenCV // 1. Імпорт OpenCV</h4>
+          <p data-translatable>
+            First, we need to import the required libraries. OpenCV is imported as cv2, and we often use NumPy alongside it for array operations and mathematical calculations.
+            // Спочатку нам потрібно імпортувати необхідні бібліотеки. OpenCV імпортується як cv2, і ми часто використовуємо NumPy разом з ним для операцій з масивами та математичних обчислень.
+          </p>
+          <pre><code>import cv2
+import numpy as np  # Often used with OpenCV</code></pre>
+
+          <h4 data-translatable>2. Reading and Writing Images // 2. Читання та запис зображень</h4>
+          <p data-translatable>
+            OpenCV provides simple functions to read images from files and save processed images back to disk. Images are loaded as NumPy arrays.
+            // OpenCV надає прості функції для читання зображень з файлів та збереження оброблених зображень на диск. Зображення завантажуються як масиви NumPy.
+          </p>
+          <pre><code># Read an image
+img = cv2.imread('image.jpg')
+
+# Save an image
+cv2.imwrite('output.jpg', img)</code></pre>
+
+          <h4 data-translatable>3. Basic Image Operations // 3. Базові операції з зображеннями</h4>
+          <p data-translatable>
+            Images in OpenCV are just NumPy arrays, which makes it easy to manipulate individual pixels and perform array operations. Here are the fundamental ways to work with images:
+            // Зображення в OpenCV — це просто масиви NumPy, що полегшує маніпулювання окремими пікселями та виконання операцій з масивами. Ось основні способи роботи із зображеннями:
+          </p>
+          <ul>
+            <li data-translatable>Access pixel values: img[y,x] for grayscale or img[y,x,c] for color (BGR) // Доступ до пікселів: img[y,x] для чорно-білих або img[y,x,c] для кольорових (BGR)</li>
+            <li data-translatable>Image shape: img.shape returns (height, width, channels) // Розміри зображення: img.shape повертає (висота, ширина, канали)</li>
+            <li data-translatable>Color conversion: cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) // Конвертація кольорів: cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)</li>
+            <li data-translatable>Resize image: cv2.resize(img, (width, height)) // Змінити розмір: cv2.resize(img, (ширина, висота))</li>
+          </ul>
+
+          <h4 data-translatable>4. Common Image Processing // 4. Поширена обробка зображень</h4>
+          <p data-translatable>
+            These are some of the most commonly used image processing operations. They form the foundation for more complex computer vision tasks. Understanding these operations is crucial for developing effective computer vision applications:
+            // Це деякі з найбільш поширених операцій обробки зображень. Вони формують основу для більш складних завдань комп'ютерного зору. Розуміння цих операцій є критично важливим для розробки ефективних застосунків комп'ютерного зору:
+          </p>
+
+          <h5 data-translatable>Blurring // Розмиття</h5>
+          <p data-translatable>
+            Blurring helps reduce noise and smooth out details. The kernel size controls the amount of blur:
+            // Розмиття допомагає зменшити шум та згладити деталі. Розмір ядра контролює ступінь розмиття:
+          </p>
+          <pre><code># Gaussian blur - smooth image with a Gaussian filter
+blurred = cv2.GaussianBlur(img, (5,5), 0)  # (5,5) is the kernel size
+
+# Median blur - good for removing salt-and-pepper noise
+median = cv2.medianBlur(img, 5)
+
+# Average blur
+average = cv2.blur(img, (5,5))</code></pre>
+
+          <h5 data-translatable>Edge Detection // Виявлення країв</h5>
+          <p data-translatable>
+            Edge detection identifies boundaries of objects in images. Canny is the most popular method:
+            // Виявлення країв визначає межі об'єктів на зображеннях. Canny є найпопулярнішим методом:
+          </p>
+          <pre><code># Canny edge detection
+edges = cv2.Canny(img, 100, 200)  # 100, 200 are the thresholds
+</code></pre>
+
+          <h5 data-translatable>Thresholding // Порогова обробка</h5>
+          <p data-translatable>
+            Thresholding separates objects from background by converting images to binary (black and white):
+            // Порогова обробка відокремлює об'єкти від фону, перетворюючи зображення на бінарні (чорно-білі):
+          </p>
+          <pre><code># Simple binary thresholding
+ret, thresh = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+
+# Adaptive thresholding - better for varying lighting
+adaptive = cv2.adaptiveThreshold(gray, 255, 
+    cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)</code></pre>
+
+          
+          <h2 data-translatable>Next Steps // Подальші кроки</h2>
+
+          <p data-translatable>
+            Remember to experiment, break things, and have fun! // Пам'ятайте: експериментуйте, припускайтеся помилок і отримуйте задоволення від навчання!
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
 
   <!-- Add required scripts -->
   <script src="./dom-i18n.min.js"></script>
