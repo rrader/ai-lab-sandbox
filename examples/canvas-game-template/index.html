@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Game Template</title>
+    
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.2.2/core.css">
+    <script type="module" src="https://pyscript.net/releases/2025.2.2/core.js"></script>
+    
+    <style>
+        #gameContainer {
+            width: 100%;
+        }
+        
+        #gameCanvas {
+            width: 300px;
+            height: 300px;
+            border: 2px solid #333;
+            margin: 2px;
+            background: #f0f0f0;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h3>Хрестики-нулики</h3>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+    </div>
+    <button id="train">Тренувати</button>
+    <button id="playagain">Грати знову</button>
+
+    <py-config>
+        packages = ["numpy"]
+    </py-config>
+    
+    <py-script src="main.py"></py-script>
+
+    <script id="console" type="py" terminal></script>
+    
+</body>
+</html> 
