@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Face Detection</title>
+    
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.2.2/core.css">
+    <script type="module" src="https://pyscript.net/releases/2025.2.2/core.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            max-width: 640px; /* Adjusted for widescreen */
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h3>Пошук обличчя</h3>
+    <canvas id="output"></canvas>
+    <button id="run-btn">Компʼютерний зір</button>
+    <canvas id="input" height="100" aria-label="Input image"></canvas>
+    <video id="video" width="100" height="100" style="display: none;"></video>
+    <button id="camera-btn" onclick="startCamera()">Запустити камеру</button>
+    <py-config>
+        packages = ["numpy", "opencv-python"]
+    </py-config>
+
+    <script src="index.js"></script>
+    <py-script src="main.py"></py-script>
+    
+</body>
+</html> 
