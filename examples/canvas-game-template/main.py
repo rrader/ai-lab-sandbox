@@ -36,8 +36,6 @@ class Board:
                       [None, None, None]]
         self.user_move = True
         self.game_over = False
-        self.moves_o = []
-        self.moves_x = []
 
 board = Board()
 

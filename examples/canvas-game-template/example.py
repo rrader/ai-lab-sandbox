@@ -1,97 +1,150 @@
-# Додаємо глобальну Q-таблицю для зберігання значень стан-дія
-Q_TABLE = {}
-LEARNING_RATE = 0.1
-DISCOUNT_FACTOR = 0.9
+# ================================
+# Штучний інтелект опонента
+
+Q = {}
+LEARNING_RATE = 0.01
+DISCOUNT_FACTOR = 0.7
+EXPLORATION_RATE = 0.9
 
 def board_to_state(board, symbol):
     # Конвертуємо дошку в рядок для використання як ключ в Q-таблиці
     state = []
     for row in board.board:
         for cell in row:
-            if cell == symbol:
-                state.append('+')
-            elif cell and cell != symbol:
-                state.append('-')
+            if cell is not None:
+                state.append(cell)
             else:
-                state.append('0')
+                state.append('_')
     return ''.join(state)
+
 
 def get_valid_moves(board):
     # Повертає список доступних ходів
     return [(x, y) for y in range(3) for x in range(3) if board.board[y][x] is None]
 
+
 def get_q_value(state, action):
     # Отримуємо Q-значення для пари стан-дія
-    return Q_TABLE.get((state, action), 1.0)
-
-def update_q_value(board, moves, reward):
-    # Оновлюємо Q-значення використовуючи формулу Q-learning
-    for state, action, next_state in moves:
-        current_q = get_q_value(state, action)
-        max_next_q = max([get_q_value(next_state, (x, y)) for x, y in get_valid_moves(board)], default=0)
-        new_q = current_q + LEARNING_RATE * (reward + DISCOUNT_FACTOR * max_next_q - current_q)
-        Q_TABLE[(state, action)] = new_q
+    if state not in Q:
+        Q[state] = {}
+    if action not in Q[state]:
+        Q[state][action] = 0.0
+    return Q[state][action]
 
 
-async def ai_move(board, symbol, train=False):
-    if board.game_over:
+def update_q_value(board, current_state, next_state, action, reward):
+    print("Оновлюємо Q-значення для", current_state, "->", action, "зі значенням", reward)
+    valid_moves = get_valid_moves(board)
+    if not valid_moves:
         return
+    
+    q = get_q_value(current_state, action)
+    
+    if reward > 0:
+        q_next = max(get_q_value(next_state, (x,y)) for x in range(3) for y in range(3))
+    else:
+        q_next = min(get_q_value(next_state, (x,y)) for x in range(3) for y in range(3))
 
-    if not train:
-        await sleep(1)  # затримка на 1 секунду для візуального ефекту міркування
+    Q[current_state][action] = (
+        q + LEARNING_RATE * (reward + DISCOUNT_FACTOR * q_next - q)
+    )
+    print(q, "->", Q[current_state][action])
 
-    print(f"Хід {symbol}")
+
+async def ai_move(board, symbol, exploration_rate=0.0):
     current_state = board_to_state(board, symbol)
     valid_moves = get_valid_moves(board)
 
-    # Вибираємо хід з найвищим Q-значенням, але іноді випадковий для дослідження
-    if train and random.random() < 0.1:  # 10% шанс вибрати випадковий хід для дослідження
+    if not valid_moves:
+        return
+    if board.game_over:
+        return
+
+    if random.random() < exploration_rate:
+        print("Випадковий хід")
         move = random.choice(valid_moves)
     else:
-        q_values = [get_q_value(current_state, m) for m in valid_moves]
-        max_q_value = max(q_values)
-        move = [m for m, q in zip(valid_moves, q_values) if q == max_q_value][0]
+        q_values = {move: Q.get(current_state, {}).get(move, 0.0) for move in valid_moves}
+        print(q_values)
+        if symbol == 'X':
+            move = max(q_values.items(), key=lambda x: x[1])[0]
+        else:
+            move = min(q_values.items(), key=lambda x: x[1])[0]
+
+    if exploration_rate == 0:
+        # вивести всі можливі ходи та їх Q-значення
+        print("Можливі ходи та їх Q-значення:")
+        for _move, q_value in q_values.items():
+            print(f"Хід {_move}: {q_value:.3f}")
+        print(f"Хід {symbol} на позицію {move}")
+        print() 
+
     x, y = move
-    
-    # Робимо хід
+
     board.board[y][x] = symbol
     board.user_move = True
-    new_state = board_to_state(board, symbol)
-    if symbol == 'O':
-        board.moves_o.append([current_state, move, new_state])
-    else:
-        board.moves_x.append([current_state, move, new_state])
-    
-    # Перевіряємо результат
+
+    if check_win(board):
+        board.game_over = True
+
+    next_state = board_to_state(board, symbol)
+    return current_state, next_state, (x, y)
+
+
+def check_end_game(board):
     winner = check_win(board)
-    
+
     if winner:
         board.game_over = True
-        # Якщо ми виграли, даємо позитивну винагороду тому хто виграв, і негативну тому хто програв
-        if winner == 'O':
-            update_q_value(board, board.moves_o, 1)    
-            update_q_value(board, board.moves_x, -1)
-        else:
-            update_q_value(board, board.moves_o, -1)
-            update_q_value(board, board.moves_x, 1)
-
     elif not get_valid_moves(board):  # Нічия
         board.game_over = True
-        reward = 0.1  # маленька винагорода обом за нічию
-        update_q_value(board, board.moves_o, reward)
-        update_q_value(board, board.moves_x, reward)
 
+
+X_REWARD = 10
+O_REWARD = -10
 
 @when("click", "#train")
 async def train(event):
 
     print("Тренування...")
-    for i in range(20000):
+    epochs = 500000
+    for i in range(epochs):
         print(f"Гра {i}...")
         board = Board()
+        current_player = random.choice(['O', 'X'])
+        current_state1, next_state1, action1 = None, None, None
+        current_state2, next_state2, action2 = None, None, None
+
         while not board.game_over:
-            await ai_move(board, 'O', train=True)
-            await ai_move(board, 'X', train=True)
+            current_player = 'X' if current_player == 'O' else 'O'
+            current_state2, next_state2, action2 = current_state1, next_state1, action1
+            current_state1, next_state1, action1 = await ai_move(board, current_player, exploration_rate=(1 - i / epochs))
+
+            check_end_game(board)
+
+            winner = check_win(board)
+            if winner:
+                if winner == 'X':
+                    update_q_value(board, current_state1, next_state1, action1, X_REWARD)
+                    update_q_value(board, current_state2, next_state2, action2, X_REWARD)
+                if winner == 'O':
+                    update_q_value(board, current_state1, next_state1, action1, O_REWARD)
+                    update_q_value(board, current_state2, next_state2, action2, O_REWARD)
+
+            elif not get_valid_moves(board):  # Нічия
+                if current_player == 'X':
+                    update_q_value(board, current_state1, next_state1, action1, X_REWARD / 2)
+                    update_q_value(board, current_state2, next_state2, action2, O_REWARD / 2)
+                else:
+                    update_q_value(board, current_state1, next_state1, action1, O_REWARD / 2)
+                    update_q_value(board, current_state2, next_state2, action2, X_REWARD / 2)
+            else: # гра ще не завершена
+                if current_player == 'X':
+                    update_q_value(board, current_state1, next_state1, action1, X_REWARD / 8)
+                    update_q_value(board, current_state2, next_state2, action2, O_REWARD / 8)
+                else:
+                    update_q_value(board, current_state1, next_state1, action1, O_REWARD / 8)
+                    update_q_value(board, current_state2, next_state2, action2, X_REWARD / 8)
 
         print(f"Гра {i} завершена")
-    print(Q_TABLE)
+    print(len(Q))
