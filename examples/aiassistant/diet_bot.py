@@ -6,10 +6,10 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from dotenv import load_dotenv
 
-# Load environment variables
+# Завантаження змінних середовища
 load_dotenv()
 
-# Initialize the LLM
+# Ініціалізація LLM
 llm = ChatOpenAI(
     openai_api_key=os.getenv("OPENROUTER_API_KEY"),
     openai_api_base="https://openrouter.ai/api/v1",
@@ -18,14 +18,14 @@ llm = ChatOpenAI(
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     welcome_message = """
-    👋 Welcome to DietPlanner Bot! 
+    👋 Вітаємо у DietPlanner Bot! 
     
-    I can help you with:
-    /plan - Get a personalized diet plan
-    /recipe - Get healthy recipe suggestions
-    /calories - Calculate calories for a meal
+    Я можу допомогти вам з:
+    /plan - Отримати персоналізований план харчування
+    /recipe - Отримати пропозиції здорових рецептів
+    /calories - Розрахувати калорії для страви
     
-    Just type your question or use these commands!
+    Просто напишіть своє запитання або використовуйте ці команди!
     """
     await update.message.reply_text(welcome_message)
 
@@ -36,43 +36,43 @@ async def get_ai_response(prompt_template: str, **kwargs) -> str:
         response = chain.run(**kwargs)
         return response
     except Exception as e:
-        print(f"Error occurred: {str(e)}")
-        return "Sorry, an error occurred while processing your request. Please try again."
+        print(f"Сталася помилка: {str(e)}")
+        return "Вибачте, під час обробки вашого запиту сталася помилка. Будь ласка, спробуйте ще раз."
 
 async def plan(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    plan_template = """Create a healthy diet plan for one day. Follow this structure:
+    plan_template = """Створіть здоровий план харчування на один день. Дотримуйтесь такої структури:
     
-    Breakfast:
-    - Meal suggestions with portions
-    - Approximate calories
+    Сніданок:
+    - Пропозиції страв з порціями
+    - Приблизні калорії
     
-    Lunch:
-    - Meal suggestions with portions
-    - Approximate calories
+    Обід:
+    - Пропозиції страв з порціями
+    - Приблизні калорії
     
-    Dinner:
-    - Meal suggestions with portions
-    - Approximate calories
+    Вечеря:
+    - Пропозиції страв з порціями
+    - Приблизні калорії
     
-    Snacks:
-    - 2-3 healthy snack options
-    - Approximate calories
+    Перекуски:
+    - 2-3 варіанти здорових перекусок
+    - Приблизні калорії
     
-    Total daily calories and macronutrient breakdown.
+    Загальна кількість калорій за день та розподіл макроелементів.
     """
     
     response = await get_ai_response(plan_template)
     await update.message.reply_text(response)
 
 async def recipe(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    recipe_template = """Suggest a healthy recipe with the following details:
+    recipe_template = """Запропонуйте здоровий рецепт з такими деталями:
     
-    1. Recipe name
-    2. Ingredients with quantities
-    3. Step-by-step preparation instructions
-    4. Cooking time
-    5. Nutritional information per serving (calories, protein, carbs, fats)
-    6. Tips for preparation
+    1. Назва рецепту
+    2. Інгредієнти з кількістю
+    3. Покрокові інструкції з приготування
+    4. Час приготування
+    5. Харчова цінність на порцію (калорії, білки, вуглеводи, жири)
+    6. Поради щодо приготування
     """
     
     response = await get_ai_response(recipe_template)
@@ -81,17 +81,17 @@ async def recipe(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def calories(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_input = " ".join(context.args)
     if not user_input:
-        await update.message.reply_text("Please provide the food items to calculate calories. Example: /calories rice chicken broccoli")
+        await update.message.reply_text("Будь ласка, вкажіть продукти для підрахунку калорій. Приклад: /calories рис курка броколі")
         return
     
-    calories_template = """Calculate nutritional information for: {food_items}
+    calories_template = """Розрахуйте харчову цінність для: {food_items}
     
-    Please provide:
-    1. Total calories
-    2. Protein content
-    3. Carbohydrate content
-    4. Fat content
-    5. Additional nutritional insights
+    Будь ласка, надайте:
+    1. Загальну кількість калорій
+    2. Вміст білків
+    3. Вміст вуглеводів
+    4. Вміст жирів
+    5. Додаткові поради щодо харчової цінності
     """
     
     response = await get_ai_response(calories_template, food_items=user_input)
@@ -99,25 +99,25 @@ async def calories(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.message.text
-    chat_template = """As a diet planning assistant, please help with this question: {question}
-    Provide clear, concise, and practical advice based on sound nutritional principles."""
+    chat_template = """Як помічник з планування дієти, будь ласка, допоможіть з цим питанням: {question}
+    Надайте чіткі, стислі та практичні поради, засновані на принципах здорового харчування."""
     
     response = await get_ai_response(chat_template, question=message)
     await update.message.reply_text(response)
 
 def main():
-    # Create application
+    # Створення додатку
     application = Application.builder().token(os.getenv("TELEGRAM_TOKEN")).build()
 
-    # Add handlers
+    # Додавання обробників
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("plan", plan))
     application.add_handler(CommandHandler("recipe", recipe))
     application.add_handler(CommandHandler("calories", calories))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
-    # Start the bot
-    print("Bot is running...")
+    # Запуск бота
+    print("Бот запущено...")
     application.run_polling()
 
 if __name__ == "__main__":
