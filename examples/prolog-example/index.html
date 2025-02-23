@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приклад експертної системи</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .example-textinput {
+            width: 100%;
+            margin: 10px 0;
+            padding: 8px;
+        }
+        .example-program {
+            height: 120px;
+        }
+        .example-button {
+            padding: 8px 16px;
+            background: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .example-button:hover {
+            background: #004494;
+        }
+        .example-result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            min-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Приклад експертної системи</h1>
+
+    <script src="https://cdn.jsdelivr.net/npm/tau-prolog@0.3.4/modules/core.min.js"></script>
+
+    <div>
+        <h2>Program</h2>
+        <textarea class="example-textinput example-program" id="program">
+person(jordan).
+person(chris).
+person(alex).
+person(blake).
+person(casey).
+person(sam).
+person(taylor).
+
+closer(alex).
+closer(casey).
+see(alex, blake).
+see(blake, casey).
+motive(alex).
+motive(casey).
+alibi(casey).
+alibi(blake).
+
+% ПРАВИЛА
+
+suspect(X) :- person(X), motive(X), closer(X).
+witness(X) :- person(X), see(X, _).
+guilty(X) :- suspect(X), \+ alibi(X).</textarea>
+        
+        <h2>Query</h2>
+        <input class="example-textinput example-goal" type="text" id="name" onKeyup="changeName();" value="" placeholder="Enter a name" />
+        
+        <input class="example-button" type="button" value="Показати всіх свідків" id="button" onClick="clickButtonWitness();" />
+        <input class="example-button" type="button" value="Показати всіх винних" id="button" onClick="clickButtonGuilty();" />
+        
+        <h2>Results</h2>
+        <div class="example-result" id="result"></div>
+    </div>
+
+    <script type="text/javascript">
+    function showWitness(name) {
+        // Отримуємо контейнер для виводу
+        var result = document.getElementById("result");
+        // Повертаємо функцію зворотного виклику
+        return function(answer) {
+            // Перевіряємо чи відповідь валідна
+            if(pl.type.is_substitution(answer)) {
+                // Отримуємо значення відповіді
+                var who = answer.lookup("X");
+                // Отримуємо ім'я особи
+                var person = name != "Y" ? name : answer.lookup("Y");
+                // Показуємо відповідь
+                result.innerHTML = result.innerHTML + "<div>" + person + " бачив " + who + "</div>";
+            }
+        };
+    }
+
+    function showGuilty() {
+        // Отримуємо контейнер для виводу
+        var result = document.getElementById("result");
+        // Повертаємо функцію зворотного виклику
+        return function(answer) {
+            // Перевіряємо чи відповідь валідна
+            if(pl.type.is_substitution(answer)) {
+                // Отримуємо значення відповіді
+                var who = answer.lookup("X");
+                // Показуємо відповідь
+                result.innerHTML = result.innerHTML + "<div>" + who + " винний</div>";
+            }
+        };
+    }
+    
+    // Показати кого бачив свідок
+    function see(name) {
+        var session = pl.create(1000);
+        // Отримуємо програму
+        var program = document.getElementById("program").value;
+        // Очищаємо вивід
+        document.getElementById("result").innerHTML = "";
+        // Консультуємося з програмою
+        session.consult(program);
+        // Формуємо запит
+        session.query("see(" + name + ", X).");
+        // Шукаємо відповіді
+        session.answers(showWitness(name), 1000);
+    }
+
+    // Показати всіх винних
+    function guilty() {
+        var session = pl.create(1000);
+        // Отримуємо програму
+        var program = document.getElementById("program").value;
+        // Очищаємо вивід
+        document.getElementById("result").innerHTML = "";
+        // Консультуємося з програмою
+        session.consult(program);
+        // Формуємо запит
+        session.query("guilty(X).");
+        // Шукаємо відповіді
+        session.answers(showGuilty(), 1000);
+    }
+    
+    function clickButtonWitness() {
+        // Отримуємо ім'я особи
+        var name = document.getElementById("name").value;
+        name = name != "" ? name : "Y";
+        // Отримуємо вподобання
+        see(name);
+    }
+
+    function clickButtonGuilty() {
+        // Отримуємо ім'я особи
+        var name = document.getElementById("name").value;
+        name = name != "" ? name : "Y";
+        // Отримуємо винних
+        guilty(name);
+    }
+    
+    // При зміні імені
+    function changeName() {
+        var name = document.getElementById("name").value;
+        document.getElementById("button").value = name != "" ? "Кого бачив " + name  + "?" : "Показати всіх свідків";
+    }
+    changeName();
+    </script>
+
+</body>
+</html>
