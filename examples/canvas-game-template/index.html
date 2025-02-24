@@ -9,17 +9,55 @@
     <script type="module" src="https://pyscript.net/releases/2025.2.2/core.js"></script>
     
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #e0e0e0;
+        }
+
+        h3 {
+            margin-bottom: 20px;
+        }
+
         #gameContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
             width: 100%;
+            max-width: 400px;
+            margin: 20px;
         }
         
         #gameCanvas {
-            width: 300px;
-            height: 300px;
+            width: 100%;
+            height: auto;
+            max-width: 300px;
+            max-height: 300px;
             border: 2px solid #333;
-            margin: 2px;
             background: #f0f0f0;
-            display: block;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -27,9 +65,9 @@
     <h3>Хрестики-нулики</h3>
     <div id="gameContainer">
         <canvas id="gameCanvas"></canvas>
+        <button id="train">Тренувати</button>
+        <button id="playagain">Грати знову</button>
     </div>
-    <button id="train">Тренувати</button>
-    <button id="playagain">Грати знову</button>
 
     <py-config>
         packages = ["numpy"]
