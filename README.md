@@ -16,3 +16,11 @@ Other directions
    - Chatbot (AI Assistants development)
    - We may look at the https://chat.webllm.ai/
    - OpenRouter https://www.youtube.com/watch?v=pfT6l0yMsB0
+
+
+
+GitHub - це платформа для розробки та спільної роботи над проектами.
+
+Реєструємось на GitHub.com (якщо ще немає аккаунту) - бажано, з власною поштою
+Відкриваємо посилання https://github.com/rrader/school-template-creative-programming
+Виконуємо інструкції з відео
